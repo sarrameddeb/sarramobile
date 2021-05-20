@@ -245,8 +245,8 @@ image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
 ////        prenomuser.addPointerPressedListener(l->{
 ////    new displayProduitForm(img,res,rec).show(); });
 ////        
-////          image.addPointerPressedListener(l->{
-////      new displayProduitForm(img,res,rec).show(); });
+        image.addPointerPressedListener(l->{
+      new displayMedicamentsForm(img,res,rec).show(); });
         cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(
                   BoxLayout.encloseX(nom),
               

@@ -19,6 +19,7 @@
 package com.mycompany.myapp.gui;
 
 import com.codename1.components.FloatingActionButton;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.gif.GifImage;
 
@@ -160,42 +161,44 @@ public class ListReservationForm extends BaseForm {
         checkStyle.setFgColor(0xff2d55);
         FontImage checkImage = FontImage.createMaterial(FontImage.MATERIAL_CHECK, checkStyle);
         super.add(fab);
-    ArrayList<Reservation_med>list=ServiceResrvation.getInstance().getAllResrvation(7);
+    ArrayList<Reservation_med>list=ServiceResrvation.getInstance().AfficherProduit();
     for(Reservation_med rec:list){
-  //    String url3 = "http://127.0.0.1:8000/uploads/"+ rec.getImg();
+        if (rec.getId_patient().contains("8")){
+            
+            
+            
+            
+            
+        
+      String url3 = "http://127.0.0.1:8000/uploads/m.jpg";
    //  String url3="";
         Image placeHolder=Image.createImage(120,90);
         EncodedImage enc= EncodedImage.createFromImage(placeHolder,false);
-    //    URLImage urli =URLImage.createToStorage(enc, url3, url3, URLImage.RESIZE_SCALE);
+        URLImage urli =URLImage.createToStorage(enc, url3, url3, URLImage.RESIZE_SCALE);
       
         
-  //  addButton(urli,rec,res);
-  //  ScaleImageLabel image =new ScaleImageLabel(urli);
+    addButton(urli,rec,res);
+    ScaleImageLabel image =new ScaleImageLabel(urli);
 Container cont = new Container();
-//image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
-
-
+image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
+        } }
     }
-    }
-
-    private void addButton(Image img ,Reservation_med rec,Resources res) {
+private void addButton(Image img ,Reservation_med rec,Resources res) {
       int height =Display.getInstance().convertToPixels(20.5f);
        int width =Display.getInstance().convertToPixels(20f);
         Button image =new Button(img.fill(width,height));
        image.setUIID("Label");
        Container cnt=BorderLayout.west(image);
-       Label med =new Label(rec.getId_med(),"NewsTopLine2");
-        Label pharmacie =new Label(rec.getId_phar(),"NewsTopLine2");
-        Label patient = new Label("Patient: "+rec.getId_patient(),"NewsTopLine" );
-        
-       
-//        TextArea ta=new TextArea(nom_user);
+       Label publicationtext=new Label(rec.getId_med(),"NewsTopLine2");
+        Label nomuser=new Label(rec.getId_phar(),"NewsTopLine2");
+         Label prenomuser=new Label(rec.getId_patient(),"NewsTopLine2");
+    //      TextArea ta=new TextArea(nomuser);
 //        ta.setUIID("NewsTopLine");
 //        ta.setEditable(false);
 //        cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(ta));
 
         Label lSupp=new Label(" ");
-        lSupp.setUIID("NewsTopLine2");
+        lSupp.setUIID("NewsTopLine");
         Style supprimerStyle =new Style(lSupp.getUnselectedStyle());
         supprimerStyle.setFgColor(0xf21f1f);
         FontImage supprimerImage =FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprimerStyle);
@@ -204,19 +207,19 @@ Container cont = new Container();
         
         lSupp.addPointerPressedListener(l->{
         Dialog dig =new Dialog("Suppression");
-        if(dig.show(",suppression","Vous voulez Supprimer la réservation ?","Annuler","Oui")){
+        if(dig.show(",suppression","Vous voulez Supprimer ce reclamation ?","Annuler","Oui")){
         dig.dispose();
         }else {
         
         dig.dispose();
          
-        if(ServiceMedicaments.getInstance().deletePublication(rec.getId())){
-          new ListMedicamentsForm(res).show();
+        if(ServiceResrvation.getInstance().deleteResrvation(rec.getId())){
+          new ListReservationForm(res).show();
         }
         
         
         
-        }        
+       }        
         });
    
         
@@ -228,27 +231,33 @@ Container cont = new Container();
         lModi.setIcon(modifieImage);
         lModi.setTextPosition(LEFT);
         
-        lModi.addPointerPressedListener(l->{
-     new EditResrvationForm(res,rec).show();
-        
-        });
-//        
-//     nomuser.addPointerPressedListener(l->{
-//     new displayProduitForm(img,res,rec).show();
+//        lModi.addPointerPressedListener(l->{
+//     new ModifiePublicationform(res,rec).show();
 //        
 //        });
-//        prenomuser.addPointerPressedListener(l->{
-//    new displayProduitForm(img,res,rec).show(); });
 //        
-//           image.addPointerPressedListener(l->{
-//      new displayProduitForm(img,res,rec).show(); });
+     nomuser.addPointerPressedListener(l->{
+           InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking(); 
+   //  new displayProduitForm(img,res,rec).show();
+        
+        });
+        prenomuser.addPointerPressedListener(l->{
+              InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking(); 
+  //  new displayProduitForm(img,res,rec).show(); 
+        });
+        
+           image.addPointerPressedListener(l->{
+                 InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking(); 
+    //  new displayProduitForm(img,res,rec).show();
+           });
         cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(
-                  BoxLayout.encloseX(med),
+                  BoxLayout.encloseX(nomuser,prenomuser),
               
-                BoxLayout.encloseX(med,lModi,lSupp), 
-                BoxLayout.encloseX(pharmacie),
-                BoxLayout.encloseX(patient)
-                ));
+                BoxLayout.encloseX(publicationtext,lModi,lSupp)
+        ));
         
         
         
@@ -256,6 +265,7 @@ Container cont = new Container();
         
   //      super.createLineSeparator();
     }
+
      private void addTab(Tabs swipe, Image image, Label spacer1, String likesStr, String commentsStr, String all_Deliveries_) {
          int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
 //        if(img.getHeight() < size) {

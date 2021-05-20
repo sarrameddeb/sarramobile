@@ -29,7 +29,6 @@ public class Reservation_med {
     }
 
     public Reservation_med() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId() {

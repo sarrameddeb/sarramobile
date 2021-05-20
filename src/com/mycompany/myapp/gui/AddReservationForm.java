@@ -46,11 +46,11 @@ public class AddReservationForm extends Form{
                 else {
                     
                     Reservation_med r = new Reservation_med((tfnom.getText()), (tfphar.getText()),(tfpat.getText()));
-                    if (new ServiceResrvation().addReservation(r))
+               //     if (new ServiceResrvation().addReservation(r))
                     {
                        Dialog.show("Success","Reservation Ajoutee", new Command("OK")) ;
                     }
-                    else 
+                  //  else 
         Dialog.show("ERROR", "Server Error",new Command("Ok"));
        ToastBar.Status status = ToastBar.getInstance().createStatus();
        status.setShowProgressIndicator(true);

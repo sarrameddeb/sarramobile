@@ -6,6 +6,7 @@
 package com.mycompany.myapp.gui;
 
 import com.codename1.components.ToastBar;
+import com.codename1.ui.AutoCompleteTextField;
 import com.codename1.ui.Button;
 import com.codename1.ui.Command;
 import com.codename1.ui.Dialog;
@@ -29,7 +30,9 @@ public class AddMedicamentsForm extends Form{
     public AddMedicamentsForm(Resources res){
         setTitle("Add new Medicaments");
         setLayout(BoxLayout.y());
-        TextField tfnom= new TextField("","NomMedicaments");
+          AutoCompleteTextField tfnom = new AutoCompleteTextField("doliprane", "diabet", "dafalgan", "dafalgan cedéine");
+tfnom.setMinimumElementsShownInPopup(5);
+       // TextField tfnom= new TextField("","NomMedicaments");
         TextField tfdesc= new TextField("","Description");
         TextField tfprix= new TextField("","Prix");
         TextField tfqte= new TextField("","quantite");
@@ -60,7 +63,7 @@ public class AddMedicamentsForm extends Form{
                       status.show();
                //  iDialog.dispose(); //NAHIW LOADING BAED AJOUT
                                    new ListMedicamentsForm(res).show();
-                    
+                    refreshTheme();
                     }catch(NumberFormatException e){
                         Dialog.show("ERROR", "le prix doit etre positive",new Command("Ok"));
                 }
